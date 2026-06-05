@@ -83,3 +83,47 @@ $ docker compose build web
 ```bash
 kubectl apply -f ...
 ```
+
+### Настройка Ingress
+
+- Установите nginx командой:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.15.1/deploy/static/provider/cloud/deploy.yaml
+```
+
+- Создайте ingress-hosts.yaml файл по типу:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-hosts
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: star-burger.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: django-site
+            port:
+              number: 80
+```
+
+- Запустите в кластере команду создания Ingress по новому манифесту:
+
+```bash
+kubectl apply -f ingress-hosts.yaml
+```
+
+- После этого откройте дополнительное окно с командой строкой и создайте маршруты для сервисов командой:
+
+```bash
+minikube tunnel
+```
+
