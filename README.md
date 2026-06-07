@@ -127,3 +127,18 @@ kubectl apply -f ingress-hosts.yaml
 minikube tunnel
 ```
 
+### Настройка регулярного удаления сессий
+
+- Для регулярного удаления старых сессий пользователей нужно запустить `CronJob` из манифеста `clearsessions-v2.yaml` командой:
+
+```bash
+kubectl apply -f .../clearsessions-v2.yaml
+```
+
+- В манифест файле с помощью параметра `schedule` можно гибко настроить периодичность выполнения задачи. Подбробнее о [Cron syntax](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) можно прочитать в документации.
+
+- Для принудительного выполнения задачи можно воспользоваться командой:
+
+```bash
+kubectl create job --from=cronjob/<имя_cronjob> <придумайте_имя_job>
+```
