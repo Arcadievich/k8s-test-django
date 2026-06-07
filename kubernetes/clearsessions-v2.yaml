@@ -4,8 +4,10 @@ metadata:
   name: clearsessions
 spec:
   schedule: "0 * * * *"
+  startingDeadlineSeconds: 1800
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 86400
       template:
         spec:
           containers:
